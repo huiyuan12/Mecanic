@@ -45,12 +45,9 @@ void PhysicsInit() {
 		partVerts[i * 3 + 1] = (((float)rand() / RAND_MAX) * 1.5f); //y
 		partVerts[i * 3 + 2] = (((float)rand() / RAND_MAX) * 0.2f); //z
 	}
-	
-
-	
 
 }
-
+//hola
 void PhysicsUpdate(float dt) {
 	//TODO
 
