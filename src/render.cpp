@@ -664,9 +664,9 @@ void drawCapsule() {
 namespace LilSpheres {
 GLuint particlesVao;
 GLuint particlesVbo;
-float radius;
+float radius = 0.05f;
 int numparticles;
-extern const int maxParticles = SHRT_MAX;
+extern const int maxParticles = 2000;
 
 void setupParticles(int numTotalParticles, float radius) {
 	assert(numTotalParticles > 0);
