@@ -8,6 +8,13 @@
 bool show_test_window = true;
 float *partVerts;
 extern int counter = 0;
+
+const int NUM_SECONDS = 1;
+clock_t this_time = clock();
+clock_t last_time = this_time;
+int fiveSecCompleted = 5;
+double time_counter = 0;
+
 void GUI() {
 	{	//FrameRate
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -30,10 +37,9 @@ namespace LilSpheres {
 	extern void cleanupParticles();
 	extern void updateParticles(int startIdx, int count, float* array_data);
 	extern void drawParticles(int startIdx, int count);
-	float lifeTime = 2000;
+	float lifeTime = 2;
 	extern float radius;
-	float velocityY = 22;
-
+	float velocityY = 15;
 }
 float *partVertsVelocity;
 void PhysicsInit() {
@@ -57,16 +63,38 @@ void PhysicsInit() {
 		
 	}
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-		partVertsVelocity[i * 3 + 0] = rand()% 5 + (-5); //x
-		partVertsVelocity[i * 3 + 2] = rand() % 5 + (-5); //z
+		partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
+		partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * 5.f; //y
+		partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
 
 	}
 
 
 }
+void PhysicsCleanup() {
+	//cout << "counter: " << counter << endl;
+	this_time = clock();
+
+	time_counter += (double)(this_time - last_time);
+
+	last_time = this_time;
+
+	if (time_counter > (double)(NUM_SECONDS * CLOCKS_PER_SEC))
+	{
+		time_counter -= (double)(NUM_SECONDS * CLOCKS_PER_SEC);
+
+		counter++;
+		//cout << "counter: " << counter << endl;
+		if (counter == LilSpheres::lifeTime) {
+
+			printf("tonto\n");
+
+
+		}
+	}
+}
 //hola
 void PhysicsUpdate(float dt) {
-
 	//TODO
 	srand(time(NULL));
 	float *finalVerts = new float[LilSpheres::maxParticles*3];
@@ -74,11 +102,13 @@ void PhysicsUpdate(float dt) {
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		//Marcamos posiciones finales para cada particula
 		
-		finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + dt * partVertsVelocity[i * 3 + 0];
-		finalVerts[i * 3 + 1] = partVerts[i * 3 + 1]+dt * LilSpheres::velocityY;  
-		finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + dt*partVertsVelocity[i * 3 + 2];//z
 
-		LilSpheres::velocityY = LilSpheres::velocityY + dt*(-9.81/300); //Modifica la velocitat en Y
+		finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + dt * partVertsVelocity[i * 3 + 0];
+		finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + dt *LilSpheres::velocityY + ((float)rand() / RAND_MAX) * 0.05f; //altura diferent 
+		finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + dt*partVertsVelocity[i * 3 + 2];//z
+		 
+		LilSpheres::velocityY = LilSpheres::velocityY+ dt*(-9.81/300) ; //Modifica la velocitat en Y
+
 
 		//Asignamos la posicion de cada particula a la posicion final.
 		partVerts[i * 3 + 0] = finalVerts[i * 3 + 0];
@@ -93,18 +123,9 @@ void PhysicsUpdate(float dt) {
 	//rebotes
 
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
+	PhysicsCleanup();
 }
-void PhysicsCleanup() {
-	//TODO
-	//destruir
 
-	
-	counter++;
-	if (counter > LilSpheres::lifeTime) {
-		
-		delete[] partVerts;
-	}
-}
 
 
 
