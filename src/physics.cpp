@@ -37,6 +37,7 @@ namespace LilSpheres {
 	extern void cleanupParticles();
 	extern void updateParticles(int startIdx, int count, float* array_data);
 	extern void drawParticles(int startIdx, int count);
+	float timeAlive = 0;
 	float lifeTime = 2;
 	extern float radius;
 	float velocityY = 15;
@@ -64,10 +65,14 @@ void PhysicsInit() {
 	}
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
-		partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * 5.f; //y
+		partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * 15.f; //y random entre 15 i 10 
 		partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
 
 	}
+/*	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+		partVertsLifetime[i * 3] = lifetime;
+	}*/
+	
 
 
 }
@@ -86,10 +91,7 @@ void PhysicsCleanup() {
 		counter++;
 		//cout << "counter: " << counter << endl;
 		if (counter == LilSpheres::lifeTime) {
-
-			printf("tonto\n");
-
-
+		
 		}
 	}
 }
@@ -97,18 +99,19 @@ void PhysicsCleanup() {
 void PhysicsUpdate(float dt) {
 	//TODO
 	srand(time(NULL));
+
 	float *finalVerts = new float[LilSpheres::maxParticles*3];
+	LilSpheres::velocityY = LilSpheres::velocityY+ dt*(-9.81) ; //Modifica la velocitat en Y
 
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		//Marcamos posiciones finales para cada particula
 		
 
 		finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + dt * partVertsVelocity[i * 3 + 0];
-		finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + dt *LilSpheres::velocityY + ((float)rand() / RAND_MAX) * 0.05f; //altura diferent 
-		finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + dt*partVertsVelocity[i * 3 + 2];//z
+		finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + dt * partVertsVelocity[i * 3 + 1]; //altura diferent 
+		finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + dt * partVertsVelocity[i * 3 + 2];//z
 		 
-		LilSpheres::velocityY = LilSpheres::velocityY+ dt*(-9.81/300) ; //Modifica la velocitat en Y
-
+		partVertsVelocity[i * 3 + 1] = partVertsVelocity[i * 3 + 1] + dt*(-9.81);
 
 		//Asignamos la posicion de cada particula a la posicion final.
 		partVerts[i * 3 + 0] = finalVerts[i * 3 + 0];
@@ -121,7 +124,6 @@ void PhysicsUpdate(float dt) {
 	//actualizar
 	//calculos
 	//rebotes
-
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
 	PhysicsCleanup();
 }
