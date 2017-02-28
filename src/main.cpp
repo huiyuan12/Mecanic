@@ -6,7 +6,6 @@
 #include <cstdio>
 
 #include "GL_framework.h"
-
 static GLFWwindow *window;
 
 extern void PhysicsInit();
@@ -21,6 +20,7 @@ extern void GLcleanup();
 extern void GLrender();
 
 namespace {
+
 	const int expected_fps = 30;
 	const double expected_frametime = 1.0 / expected_fps;
 	double prev_frametimestamp = 0;
