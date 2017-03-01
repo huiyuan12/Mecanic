@@ -5,8 +5,11 @@
 #include <time.h>	
 
 #define GRAVITY -9.81;
+#define newParticles 10
 bool show_test_window = true;
 float *partVerts;
+int primera;
+int ultima;
 extern int counter = 0;
 
 const int NUM_SECONDS = 1;
@@ -31,23 +34,21 @@ void GUI() {
 	}
 }
 namespace LilSpheres {
-
 	extern const int maxParticles;
 	extern void setupParticles(int numTotalParticles, float radius);
 	extern void cleanupParticles();
 	extern void updateParticles(int startIdx, int count, float* array_data);
 	extern void drawParticles(int startIdx, int count);
-	float timeAlive = 0;
-	float lifeTime = 2;
+	float timeAlive;
 	extern float radius;
 	float velocityY = 15;
 }
 float *partVertsVelocity;
+float timeLife;
 void PhysicsInit() {
 	//TODO
 	//crear particulas
 	srand(time(NULL));
-	LilSpheres::setupParticles(LilSpheres::maxParticles,LilSpheres::radius); //POSITION
 
 														  //TODO
 														  //updateParticles is the function you can use to update the position of the particles (directly from the physics code)
@@ -56,11 +57,12 @@ void PhysicsInit() {
 
 	partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
 	partVertsVelocity = new float[LilSpheres::maxParticles * 3];
-
+	timeLife = LilSpheres::timeAlive;
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		partVerts[i * 3 + 0] = 0; //x
 		partVerts[i * 3 + 1] = 0; //y
 		partVerts[i * 3 + 2] = 0; //z
+		timeLife = 0;
 		
 	}
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
@@ -74,15 +76,19 @@ void PhysicsInit() {
 	}*/
 	
 
-
 }
 
-//hola
+//hola	
+
 void PhysicsUpdate(float dt) {
 	//TODO
-	srand(time(NULL));
 
-	float *finalVerts = new float[LilSpheres::maxParticles*3];
+	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
+
+	int countAliveParticles = 0;
+	countAliveParticles += LilSpheres::maxParticles;
+
+	float *finalVerts = new float[LilSpheres::maxParticles * 3];
 	LilSpheres::velocityY = LilSpheres::velocityY+ dt*(-9.81) ; //Modifica la velocitat en Y
 
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {

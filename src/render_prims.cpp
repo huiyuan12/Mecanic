@@ -8,6 +8,8 @@ bool renderSphere = true;
 bool renderCapsule = true;
 bool renderParticles = true;
 
+extern int primera;
+extern int ultima;
 namespace Sphere {
 extern void setupSphere(glm::vec3 pos = glm::vec3(3, 1.f, 0.f), float radius = 1.f);
 extern void cleanupSphere();
