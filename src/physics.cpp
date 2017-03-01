@@ -76,25 +76,7 @@ void PhysicsInit() {
 
 
 }
-void PhysicsCleanup() {
-	//cout << "counter: " << counter << endl;
-	this_time = clock();
 
-	time_counter += (double)(this_time - last_time);
-
-	last_time = this_time;
-
-	if (time_counter > (double)(NUM_SECONDS * CLOCKS_PER_SEC))
-	{
-		time_counter -= (double)(NUM_SECONDS * CLOCKS_PER_SEC);
-
-		counter++;
-		//cout << "counter: " << counter << endl;
-		if (counter == LilSpheres::lifeTime) {
-		
-		}
-	}
-}
 //hola
 void PhysicsUpdate(float dt) {
 	//TODO
@@ -124,10 +106,25 @@ void PhysicsUpdate(float dt) {
 	//actualizar
 	//calculos
 	//rebotes
+
+	//dos variables definirlas extern -> primera , ultima
+		
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
-	PhysicsCleanup();
+
+	/*
+	if(primera > ultima) {
+		LilSpheres::updateParticles(primera, ultima-primera, partVerts);
+	} else {
+		LilSpheres::updateParticles(ultima, LilSpheres::maxParticles-ultima, &partVerts[ultima]);
+		LilSpheres::updateParticles(0, primera, partVerts);
+	}
+	*/
+	
 }
 
+void PhysicsCleanup() {
+	//cout << "counter: " << counter << endl;
 
+}
 
 

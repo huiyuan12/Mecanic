@@ -1,8 +1,8 @@
 ﻿  physics.cpp
 c:\users\hzhou\source\repos\mecanic\src\physics.cpp(49): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(101): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(114): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(83): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(86): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.exe
   GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.pdb (Partial PDB)
   0 File(s) copied

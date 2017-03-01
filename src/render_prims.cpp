@@ -46,7 +46,19 @@ void renderPrims() {
 
 	//TODO drawParticles can only draw a contiguous amount of particles in its array from start idx to idx+count
 	//Depending the alive particles that have to be rendered, you may need to do multiple calls for this function
-	if(renderParticles)
+
+	//dos variables definirlas extern -> primera , ultima
+	if (renderParticles) {
 		LilSpheres::drawParticles(0, LilSpheres::maxParticles);
+		/*
+		if (primera > ultima) {
+			LilSpheres::drawParticles(primera, ultima-primera);
+		}
+		else {
+			LilSpheres::updateParticles(ultima, LilSpheres::maxParticles - ultima, &partVerts[ultima]);
+			LilSpheres::updateParticles(0, primera, partVerts);
+		}
+		*/
+	}
 	//
 }
