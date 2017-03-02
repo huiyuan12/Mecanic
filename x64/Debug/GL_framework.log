@@ -1,9 +1,12 @@
 ﻿  physics.cpp
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(51): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(88): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(91): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(101): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.exe
-  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.pdb (Partial PDB)
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(56): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(139): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(152): warning C4305: '*=': truncation from 'double' to 'float'
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(156): warning C4305: '*=': truncation from 'double' to 'float'
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(159): warning C4305: '*=': truncation from 'double' to 'float'
+c:\users\hzhou\source\repos\mecanic2\src\physics.cpp(163): warning C4305: '*=': truncation from 'double' to 'float'
+  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic2\x64\Debug\GL_framework.exe
+  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic2\x64\Debug\GL_framework.pdb (Partial PDB)
   0 File(s) copied
   0 File(s) copied
