@@ -1,4 +1,12 @@
-﻿  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Mecanic3\x64\Debug\GL_framework.exe
+﻿  physics.cpp
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(176): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(232): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(240): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(280): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(301): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(319): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\source\repos\mecanic3\src\physics.cpp(340): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Mecanic3\x64\Debug\GL_framework.exe
   GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Mecanic3\x64\Debug\GL_framework.pdb (Partial PDB)
   0 archivo(s) copiado(s)
   0 archivo(s) copiado(s)

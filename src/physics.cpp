@@ -7,9 +7,9 @@
 
 
 #define GRAVITY -9.81
-#define NParticles 10
+#define NParticles 25
 bool show_test_window = true;
-
+using namespace std;
 int primera;
 int ultima;
 extern int counter = 0;
@@ -162,6 +162,7 @@ float *lastPartVerts;
 float *finalVerts;
 float *TimeLife;
 float *temporalVerts;
+float *xForce, *yForce, *zForce;
 float fx = ((float)rand() / RAND_MAX) * 5.f - 2.f , fy = -20, fz = ((float)rand() / RAND_MAX) * 5.f - 2.f; // forces
 namespace Capsule {
 extern void setupCapsule(glm::vec3 posA = glm::vec3(-3.f, 2.f, -2.f), glm::vec3 posB = glm::vec3(-5.f, 2.f, 2.f), float radius = 1.f);
@@ -184,6 +185,10 @@ void PhysicsInit() {
 	temporalVerts = new float[LilSpheres::maxParticles * 3];
 	partVertsVelocity = new float[LilSpheres::maxParticles * 3];
 	TimeLife = new float[LilSpheres::maxParticles];
+	xForce = new float[LilSpheres::maxParticles];
+	yForce = new float[LilSpheres::maxParticles];
+	zForce = new float[LilSpheres::maxParticles];
+
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		partVerts[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
 		partVerts[i * 3 + 1] = 7.5; //y
@@ -193,6 +198,14 @@ void PhysicsInit() {
 		lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
 		lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
 		lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
+	}
+
+	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+
+		xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+		yForce[i] = -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+		zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+
 	}
 
 
@@ -205,6 +218,41 @@ void PhysicsInit() {
 
 void collision()
 {
+
+	float *topDistance = new float[LilSpheres::maxParticles * 3];
+	float *bottomDistance = new float[LilSpheres::maxParticles * 3];
+	float *rightDistance = new float[LilSpheres::maxParticles * 3];
+	float *leftDistance = new float[LilSpheres::maxParticles * 3];
+	float *closeDistance = new float[LilSpheres::maxParticles * 3];
+	float *farDistance = new float[LilSpheres::maxParticles * 3];
+
+
+	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+		// bottom plane collision
+		bottomDistance[i] = (partVerts[i*3+1]*100) / sqrt(100*100);
+		if (bottomDistance[i] <= 0) { 
+			
+			
+
+		}
+
+		//right plane collison
+		rightDistance[i] = partVerts[i * 3 + 0]*(-100) / sqrt(100*100) -5; // es raro pero funciona
+		if (rightDistance[i] <= 0) { 
+
+			// colisions elastiques
+
+		}
+		//left plane collison
+		//leftDistance[i] *= -1;
+
+		//top plane collison
+	//	topDistance[i] =
+		
+	}
+
+
+	/*
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 
 		if (partVerts[i * 3 + 0] <= -4.9 || partVerts[i * 3 + 0] >= 4.9) {
@@ -215,16 +263,16 @@ void collision()
 			partVertsVelocity[i * 3 + 1] *= -0.8;
 		}
 		if (partVerts[i * 3 + 1] >= 9.9) {
-			partVertsVelocity[i * 3 + 1] *= -1.1;
+			partVertsVelocity[i * 3 + 1] *= -1;
 		}
 
 		if (partVerts[i * 3 + 2] <= -4.9 || partVerts[i * 3 + 2] >= 4.9) {
 			partVertsVelocity[i * 3 + 2] *= -0.8;
 		}
 
-	}
+	}*/
 }
-void Euler(float dt)
+void EulerFountain(float dt) 
 {
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
 		LilSpheres::countAliveParticles += NParticles;
@@ -262,7 +310,11 @@ void Euler(float dt)
 		}
 	}
 }
-void Verlet(float dt)
+
+
+
+
+void VerletCascade(float dt)
 {
 
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
@@ -276,7 +328,16 @@ void Verlet(float dt)
 			partVerts[i * 3 + 1] = 7.5; //y
 			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
 
-	
+			xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			yForce[i] = -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+
+			
+
+			lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
+			lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
+			lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
+
 			TimeLife[i] = 0;
 		}
 		else {
@@ -284,9 +345,9 @@ void Verlet(float dt)
 
 			temporalVerts = partVerts;
 
-			finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + (partVerts[i * 3 + 0] - lastPartVerts[i * 3 + 0]) + (fx / LilSpheres::mass)*(dt*dt);
-			finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + (partVerts[i * 3 + 1] - lastPartVerts[i * 3 + 1]) + (fy / LilSpheres::mass)*(dt*dt);
-			finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + (partVerts[i * 3 + 2] - lastPartVerts[i * 3 + 2]) + (fz / LilSpheres::mass)*(dt*dt);
+			finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + (partVerts[i * 3 + 0] - lastPartVerts[i * 3 + 0]) + (xForce[i] / LilSpheres::mass)*(dt*dt);
+			finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + (partVerts[i * 3 + 1] - lastPartVerts[i * 3 + 1]) + (yForce[i] / LilSpheres::mass)*(dt*dt);
+			finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + (partVerts[i * 3 + 2] - lastPartVerts[i * 3 + 2]) + (zForce[i] / LilSpheres::mass)*(dt*dt);
 
 
 			lastPartVerts[i * 3 + 0] = temporalVerts[i * 3 + 0];
@@ -301,13 +362,22 @@ void Verlet(float dt)
 		}
 	}
 }
+
+void Euler(float dt) { // Fer Euler Cascade
+	EulerFountain(dt);
+}						 // Per fer això crec que cal tenir un partVerts, partVelocity, ect per sa cascada i un per sa font. És a dir, duplicar tots els arrays que hem fet
+
+void Verlet(float dt) { // Fer Verlet Fountain
+	VerletCascade(dt);
+
+}
 void PhysicsUpdate(float dt) {
 	//TODO
 	
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
 	
 	Verlet(dt);
-	//collision();
+	collision();
 
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
 }
