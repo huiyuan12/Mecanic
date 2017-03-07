@@ -202,9 +202,9 @@ void PhysicsInit() {
 
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 
-		xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
-		yForce[i] = -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-		zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+		xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
+		yForce[i] = 0;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+		zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
 
 	}
 
@@ -223,7 +223,7 @@ void collision()
 	float *bottomDistance = new float[LilSpheres::maxParticles * 3];
 	float *rightDistance = new float[LilSpheres::maxParticles * 3];
 	float *leftDistance = new float[LilSpheres::maxParticles * 3];
-	float *closeDistance = new float[LilSpheres::maxParticles * 3];
+	float *frontDistance = new float[LilSpheres::maxParticles * 3];
 	float *farDistance = new float[LilSpheres::maxParticles * 3];
 
 
@@ -237,17 +237,43 @@ void collision()
 		}
 
 		//right plane collison
-		rightDistance[i] = partVerts[i * 3 + 0]*(-100) / sqrt(100*100) -5; // es raro pero funciona
+		rightDistance[i] = (partVerts[i * 3 + 0] * (-100)) / sqrt(100 * 100) - 5; // es raro pero funciona
 		if (rightDistance[i] <= 0) { 
 
 			// colisions elastiques
 
 		}
 		//left plane collison
-		//leftDistance[i] *= -1;
+		leftDistance[i] = (-partVerts[i * 3 + 0] * (-100)) / sqrt(100 * 100) + 5;
+		if (leftDistance[i] <= 0) {
+
+			// colisions elastiques
+		
+
+		}
 
 		//top plane collison
-	//	topDistance[i] =
+		topDistance[i] = ((partVerts[i * 3 + 1] * 100) / sqrt(100 * 100)-10) *(-1); // d'aquesta manera ses distancies son positives mentre estiguin dins es cub
+		
+		if (topDistance[i] <= 0) {
+
+			
+
+		}
+
+		//front plane collision
+
+		frontDistance[i] = partVerts[i * 3 + 2] * (100) / sqrt(100 * 100)+5;
+		if (frontDistance[i] <= 0) {
+
+
+		}
+
+		frontDistance[i] = -partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) + 5;
+		if (frontDistance[i] <= 0) {
+
+
+		}
 		
 	}
 
@@ -328,9 +354,9 @@ void VerletCascade(float dt)
 			partVerts[i * 3 + 1] = 7.5; //y
 			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
 
-			xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			yForce[i] = -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			yForce[i] = 0;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
 
 			
 
