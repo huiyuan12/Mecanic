@@ -29,6 +29,7 @@ bool textfor100 = false;
 int emmiter;
 int emmiter2;
 int solver;
+
 void GUI() {
 	{	//FrameRate
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -185,8 +186,17 @@ void PhysicsInit() {
 //SOLVER == 0 -> EULER
 //EULER == 0 => FOUNTAIN!!!!!!!!!!!!!!
 //EULER == 1 => CASCADE!!!!!!!!!!!!!!
-	if (solver == 0) {
-		if (emmiter == 0) {
+	partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
+	lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
+	temporalVerts = new float[LilSpheres::maxParticles * 3];
+	partVertsVelocity = new float[LilSpheres::maxParticles * 3];
+	TimeLife = new float[LilSpheres::maxParticles];
+	xForce = new float[LilSpheres::maxParticles];
+	yForce = new float[LilSpheres::maxParticles];
+	zForce = new float[LilSpheres::maxParticles];
+	
+	if (emmiter == 0) {
+		if (solver == 0) {
 			partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
 			lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
 			temporalVerts = new float[LilSpheres::maxParticles * 3];
@@ -199,19 +209,49 @@ void PhysicsInit() {
 				TimeLife[i] = 0;
 			}
 			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-				partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //x
-				partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * 15.f; //y random entre 15 i 10
+				partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
+				partVertsVelocity[i * 3 + 1] = 10.f + ((float)rand() / RAND_MAX) * 5.f; //y random entre 15 i 10
 				partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
 			}
-
 		}
-		else if (emmiter == 1) {
+		else if (solver == 1)
+		{
+			partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
+			lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
+			temporalVerts = new float[LilSpheres::maxParticles * 3];
+			partVertsVelocity = new float[LilSpheres::maxParticles * 3];
+			TimeLife = new float[LilSpheres::maxParticles];
+			xForce = new float[LilSpheres::maxParticles];
+			yForce = new float[LilSpheres::maxParticles];
+			zForce = new float[LilSpheres::maxParticles];
+			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+				partVerts[i * 3 + 0] = 0; //x
+				partVerts[i * 3 + 1] = 0; //y
+				partVerts[i * 3 + 2] = 0; //z
+				TimeLife[i] = 0;
+
+				lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
+				lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
+				lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
+				for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+
+					xForce[i] =  ((float)rand() / RAND_MAX) * 5.f - 2.f;
+					yForce[i] = 7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+					zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+				}
+			}
+		}
+	}
+	else if (emmiter == 1)
+	{
+		if (solver == 0)
+		{
 			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 				partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
 				partVertsVelocity = new float[LilSpheres::maxParticles * 3];
 				TimeLife = new float[LilSpheres::maxParticles];
 				for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-					partVerts[i * 3 + 0] = -5; //x
+					partVerts[i * 3 + 0] = -5 + ((float)rand() / RAND_MAX) *1.f; //xESTO O PONER -5 DIRECTO 
 					partVerts[i * 3 + 1] = 7.5; //y
 					partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //z
 					TimeLife[i] = 0;
@@ -223,9 +263,8 @@ void PhysicsInit() {
 				}
 			}
 		}
-	}
-	if (solver == 1) {
-		if (emmiter2 == 0) {
+		else if (solver == 1)
+		{
 			partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
 			lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
 			temporalVerts = new float[LilSpheres::maxParticles * 3];
@@ -235,35 +274,9 @@ void PhysicsInit() {
 			yForce = new float[LilSpheres::maxParticles];
 			zForce = new float[LilSpheres::maxParticles];
 			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-				partVerts[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
+				partVerts[i * 3 + 0] =  ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
 				partVerts[i * 3 + 1] = 7.5; //y
-				partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
-				TimeLife[i] = 0;
-
-				lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
-				lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
-				lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
-			}
-			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-
-				xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
-				yForce[i] = -7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-				zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			}
-		}
-		else if (emmiter2 == 1) {
-			partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
-			lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
-			temporalVerts = new float[LilSpheres::maxParticles * 3];
-			partVertsVelocity = new float[LilSpheres::maxParticles * 3];
-			TimeLife = new float[LilSpheres::maxParticles];
-			xForce = new float[LilSpheres::maxParticles];
-			yForce = new float[LilSpheres::maxParticles];
-			zForce = new float[LilSpheres::maxParticles];
-			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-				partVerts[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
-				partVerts[i * 3 + 1] = 7.5; //y
-				partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
+				partVerts[i * 3 + 2] = -5.f + ((float)rand() / RAND_MAX) * 1.f; //z
 				TimeLife[i] = 0;
 
 				lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
@@ -278,7 +291,10 @@ void PhysicsInit() {
 			}
 		}
 	}
+	/////////////
+	
 }
+
 void collision()
 {
 
@@ -366,7 +382,7 @@ void EulerFountain(float dt)
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
 		LilSpheres::countAliveParticles += NParticles;
 		finalVerts = new float[LilSpheres::maxParticles * 3];
-		LilSpheres::velocityY = LilSpheres::velocityY + dt*(-9.81); //Modifica la velocitat en Y
+		LilSpheres::velocityY = LilSpheres::velocityY + dt*(9.81); //Modifica la velocitat en Y
 
 	for (int i = 0; i < LilSpheres::countAliveParticles; ++i)
 	{
@@ -374,8 +390,8 @@ void EulerFountain(float dt)
 			partVerts[i * 3 + 0] = 0; //x
 			partVerts[i * 3 + 1] = 0.5; //y
 			partVerts[i * 3 + 2] = 0; //z
-			partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //x
-			partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * 15.f; //y random
+			partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
+			partVertsVelocity[i * 3 + 1] = 10.f + ((float)rand() / RAND_MAX) * 5.f;;
 			partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
 			TimeLife[i] = 0;
 		}
@@ -390,10 +406,13 @@ void EulerFountain(float dt)
 			partVertsVelocity[i * 3 + 1] = partVertsVelocity[i * 3 + 1] + dt*(-9.81);
 
 			//Asignamos la posicion de cada particula a la posicion final.
-
-					partVerts[i * 3 + 1] = finalVerts[i * 3 + 1];
-					partVerts[i * 3 + 0] = finalVerts[i * 3 + 0];
-					partVerts[i * 3 + 2] = finalVerts[i * 3 + 2];//z
+			partVerts[i * 3 + 1] = finalVerts[i * 3 + 1];
+			if (partVerts[i * 3 + 1] > 0.1) {
+				partVerts[i * 3 + 0] = finalVerts[i * 3 + 0];
+				partVerts[i * 3 + 2] = finalVerts[i * 3 + 2];//z
+			}
+					
+				
 				
 		}
 	}
@@ -408,7 +427,7 @@ void EulerCascade(float dt) {
 	for (int i = 0; i < LilSpheres::countAliveParticles; ++i)
 	{
 		if (TimeLife[i] == LilSpheres::lifeTime) {
-			partVerts[i * 3 + 0] = -5; //x
+			partVerts[i * 3 + 0] = -5 + ((float)rand() / RAND_MAX) *1.f; // ESTO O PONER -5 DIRECTO 
 			partVerts[i * 3 + 1] = 7.5; //y
 			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //z
 			partVertsVelocity[i * 3 + 0] = 5; //x
@@ -447,7 +466,7 @@ void VerletCascade(float dt)
 		if (TimeLife[i] == LilSpheres::lifeTime) {
 			partVerts[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
 			partVerts[i * 3 + 1] = 7.5; //y
-			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
+			partVerts[i * 3 + 2] = -5.f + ((float)rand() / RAND_MAX) * 1.f; //z
 
 			xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
 			yForce[i] = -7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
@@ -487,17 +506,17 @@ void VerletFountain(float dt) {
 	for (int i = 0; i < LilSpheres::countAliveParticles; ++i)
 	{
 		if (TimeLife[i] == LilSpheres::lifeTime) {
-			partVerts[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
-			partVerts[i * 3 + 1] = 7.5; //y
-			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 3.f - 2.f; //z
+			partVerts[i * 3 + 0] = 0; //x
+			partVerts[i * 3 + 1] = 0; //y
+			partVerts[i * 3 + 2] = 0; //z
 
-			xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			yForce[i] = -7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			yForce[i] = 7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
 			lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
 			lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
 			lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
-
+		
 			TimeLife[i] = 0;
 		}
 		else {
@@ -509,14 +528,18 @@ void VerletFountain(float dt) {
 			finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + (partVerts[i * 3 + 1] - lastPartVerts[i * 3 + 1]) + (yForce[i] / LilSpheres::mass)*(dt*dt);
 			finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + (partVerts[i * 3 + 2] - lastPartVerts[i * 3 + 2]) + (zForce[i] / LilSpheres::mass)*(dt*dt);
 
-
+			
 			lastPartVerts[i * 3 + 0] = temporalVerts[i * 3 + 0];
 			lastPartVerts[i * 3 + 1] = temporalVerts[i * 3 + 1];
 			lastPartVerts[i * 3 + 2] = temporalVerts[i * 3 + 2];
 			//Asignamos la posicion de cada particula a la posicion final.
-			partVerts[i * 3 + 0] = finalVerts[i * 3 + 0];
+			if (partVerts[i * 3 + 1] > 4) {
+				yForce[i] -= 5;
+			}
+			partVerts[i * 3 + 0] = finalVerts[i * 3 + 0]; 
 			partVerts[i * 3 + 1] = finalVerts[i * 3 + 1];
 			partVerts[i * 3 + 2] = finalVerts[i * 3 + 2];//z
+		
 
 		}
 	}
@@ -526,23 +549,28 @@ void PhysicsUpdate(float dt) {
 	//TODO
 
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
-
-	if (solver == 0) {
-		if (emmiter == 0) { 
+	if (emmiter == 0) {
+		if (solver == 0)
+		{
 			EulerFountain(dt);
 		}
-		else if (emmiter == 1){
-			EulerCascade(dt);
-		}
-	}
-	if (solver == 1) {
-		if (emmiter2 == 0) {
+		else if (solver == 1)
+		{
 			VerletFountain(dt);
 		}
-		else if (emmiter2 == 1) {
+	}
+	else if (emmiter == 1)
+	{
+		if (solver == 0) {
+			EulerCascade(dt);
+		}
+		else if (solver == 1)
+		{
 			VerletCascade(dt);
+		}
 	}
-	}
+	
+
 	
 	
 	

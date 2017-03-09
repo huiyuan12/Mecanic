@@ -1,15 +1,15 @@
 ﻿  physics.cpp
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(178): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(295): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(303): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(310): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(179): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(311): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\hzhou\source\repos\mecanic\src\physics.cpp(319): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(329): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(326): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\hzhou\source\repos\mecanic\src\physics.cpp(335): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(369): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(390): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(345): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(351): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(385): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\hzhou\source\repos\mecanic\src\physics.cpp(406): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(427): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(425): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hzhou\source\repos\mecanic\src\physics.cpp(446): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.exe
   GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.pdb (Partial PDB)
   0 File(s) copied
