@@ -32,32 +32,18 @@ int solver;
 
 void GUI() {
 	{	//FrameRate
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		//this function selects euler or verlet
-
-
-				ImGui::RadioButton("Euler", &solver, 0);
-				ImGui::RadioButton("Verlet", &solver, 1);
-				ImGui::SameLine();
-				
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			//this function selects euler or verlet
+					ImGui::RadioButton("Euler", &solver, 0);	ImGui::SameLine();
+					ImGui::Text("   ");
+					ImGui::SameLine();
+					ImGui::RadioButton("Verlet", &solver, 1);	
 					ImGui::RadioButton("Fountain ", &emmiter, 0);
+					ImGui::SameLine(); 
 					ImGui::RadioButton("cascade  ", &emmiter, 1);
 				}
 				
 				
-				ImGui::SameLine();			
-
-		/*if (ImGui::CollapsingHeader("Euler")) {
-			ImGui::RadioButton("Fountain ", &euler, 0);
-			ImGui::RadioButton("Cascade", &euler, 1);
-		}
-		if (ImGui::CollapsingHeader("Verlet")) {
-			ImGui::RadioButton("Fountain", &verlet, 0);
-			ImGui::RadioButton("Cascade", &verlet, 1);
-		}*/
-
-
-	
 
 		ImGui::SliderInt("Velocity", &velocity, 15, 30); //thsi function changes the velocity of partitcles;
 
@@ -139,6 +125,8 @@ textfor100 = true;
 
 
 		}
+		
+
 		// ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
 		if (show_test_window) {
 			ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
