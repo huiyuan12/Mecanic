@@ -369,7 +369,7 @@ void collision()
 			ElasticityVerlet(1, 0, 0, 0.8, i);
 			ElasticityEuler(1, 0, 0, 0.8, i);
 
-		}
+		}//
 
 		//front plane collision
 
