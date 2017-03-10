@@ -317,9 +317,8 @@ void collision()
 		}
 
 		//sphere collison
-		sphereDistance[i] = sqrt((partVerts[i * 3 + 0] - 3)*(partVerts[i * 3 + 0] - 3) + (partVerts[i * 3 + 1] - 1)*(partVerts[i * 3 + 1] - 1) + (partVerts[i * 3 + 2] - 0)*(partVerts[i * 3 + 2] - 0)) - 1.f;
+		sphereDistance[i] = sqrt((partVerts[i * 3 + 0] - sphereX)*(partVerts[i * 3 + 0] - sphereX) + (partVerts[i * 3 + 1] - sphereY)*(partVerts[i * 3 + 1] - sphereY) + (partVerts[i * 3 + 2] - 0)*(partVerts[i * 3 + 2] - 0)) - radiusSphere;
 		if (sphereDistance[i] < 0) {
-
 		}
 
 	}
@@ -515,7 +514,7 @@ void VerletFountain(float dt) {
 
 void PhysicsUpdate(float dt) {
 	//TODO
-
+	collision();
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
 	NParticles = 100;
 	if (emmiter == 0) {
