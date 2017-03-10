@@ -1,16 +1,20 @@
 ﻿  physics.cpp
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(165): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(297): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(305): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(312): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(321): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(331): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(337): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(371): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(392): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(411): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\source\repos\mecanic\src\physics.cpp(432): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.exe
-  GL_framework.vcxproj -> C:\Users\hzhou\Source\Repos\Mecanic\x64\Debug\GL_framework.pdb (Partial PDB)
-  0 File(s) copied
-  0 File(s) copied
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(194): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(254): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(304): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(326): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(334): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(341): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(350): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(360): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(366): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(400): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(421): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(440): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(461): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(487): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\huiyu\source\repos\mecanic4\src\physics.cpp(531): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  GL_framework.vcxproj -> C:\Users\huiyu\Source\Repos\Mecanic4\x64\Debug\GL_framework.exe
+  GL_framework.vcxproj -> C:\Users\huiyu\Source\Repos\Mecanic4\x64\Debug\GL_framework.pdb (Partial PDB)
+  0 archivo(s) copiado(s)
+  0 archivo(s) copiado(s)

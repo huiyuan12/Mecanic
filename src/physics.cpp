@@ -1,6 +1,9 @@
 #include <imgui\imgui.h>
 #include <imgui\imgui_impl_glfw_gl3.h>
 #include <glm\gtc\matrix_transform.hpp>
+#include <GL\glew.h>
+#include <glm\gtc\type_ptr.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include <stdio.h>
 #include <time.h>	
 #include <iostream>
@@ -20,16 +23,45 @@ clock_t last_time = this_time;
 int fiveSecCompleted = 5;
 double time_counter = 0;
 
-int velocity;
+float velocity;
 bool textfor0 = false;
 bool textfor10 = false;
 bool textfor20 = false;
 bool textfor50 = false;
 bool textfor100 = false;
+
 int emmiter;
 int emmiter2;
 int solver;
+float radiusCapsule = 1.f;
+float radiusSphere = 1.f;
+float capsuleX = -3.f;
+float capsuleY = 2.f;
+float capsuleZ = -2.f;
+float sphereX = 3.f;
+float sphereY = 1.f;
+float *partVertsVelocity;
+float *partVerts;
+float *lastPartVerts;
+float *finalVerts;
+float *TimeLife;
+float *temporalVerts;
+float *xForce, *yForce, *zForce;
+float fx = ((float)rand() / RAND_MAX) * 5.f - 2.f, fy = -20, fz = ((float)rand() / RAND_MAX) * 5.f - 2.f; // forces
+namespace Capsule {
+	
+	extern void setupCapsule(glm::vec3 posA = glm::vec3(-3.f, 2.f, -2.f), glm::vec3 posB = glm::vec3(-5.f, 2.f, 2.f), float radius = 1.f);
+	extern void cleanupCapsule();
+	extern void updateCapsule(glm::vec3 posA, glm::vec3 posB,float radiusCapsule );
+	extern void drawCapsule();
 
+}
+namespace Sphere {
+	extern void setupSphere(glm::vec3 pos = glm::vec3(3, 1.f, 0.f), float radius = 1.f);
+	extern void cleanupSphere();
+	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
+	extern void drawSphere();
+}
 void GUI() {
 	{	//FrameRate
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -42,11 +74,20 @@ void GUI() {
 					ImGui::SameLine(); 
 					ImGui::RadioButton("cascade  ", &emmiter, 1);
 				}
-				
-				
+			ImGui::SliderFloat("Velocity", &velocity, 0, 2); //thsi function changes the velocity of partitcles;
 
-		ImGui::SliderInt("Velocity", &velocity, 15, 30); //thsi function changes the velocity of partitcles;
-
+		if (ImGui::CollapsingHeader("Capsule"))
+		{
+			ImGui::SliderFloat("Capsule Radius", &radiusCapsule, 0, 3); //thsi function changes the velocity of partitcles;
+			ImGui::SliderFloat("Position X Capsule", &capsuleX ,-4.9f, 4.9f);
+			ImGui::SliderFloat("Position Y Capsule,", &capsuleY, 0.9f, 9.9f);
+		}
+		if (ImGui::CollapsingHeader("Sphere"))
+		{
+			ImGui::SliderFloat("Sphere radius", &radiusSphere, 0, 3); //thsi function changes the velocity of partitcles;
+			ImGui::SliderFloat("Position X Sphere", &sphereX, -4.9f, 4.9f);
+			ImGui::SliderFloat("Position Y Sphere,", &sphereY, 0.9f, 9.9f);
+		}
 		//this function change the number of particles
 		if (ImGui::CollapsingHeader("Number of Particles"))
 		{
@@ -126,7 +167,6 @@ textfor100 = true;
 
 		}
 		
-
 		// ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
 		if (show_test_window) {
 			ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
@@ -147,20 +187,7 @@ namespace LilSpheres {
 	int mass = 1;
 }
 
-float *partVertsVelocity;
-float *partVerts;
-float *lastPartVerts;
-float *finalVerts;
-float *TimeLife;
-float *temporalVerts;
-float *xForce, *yForce, *zForce;
-float fx = ((float)rand() / RAND_MAX) * 5.f - 2.f, fy = -20, fz = ((float)rand() / RAND_MAX) * 5.f - 2.f; // forces
-namespace Capsule {
-	extern void setupCapsule(glm::vec3 posA = glm::vec3(-3.f, 2.f, -2.f), glm::vec3 posB = glm::vec3(-5.f, 2.f, 2.f), float radius = 1.f);
-	extern void cleanupCapsule();
-	extern void updateCapsule(glm::vec3 posA, glm::vec3 posB, float radius = 1.f);
-	extern void drawCapsule();
-}
+
 void PhysicsInit() {
 	//TODO
 	//crear particulas
@@ -182,7 +209,7 @@ void PhysicsInit() {
 	xForce = new float[LilSpheres::maxParticles];
 	yForce = new float[LilSpheres::maxParticles];
 	zForce = new float[LilSpheres::maxParticles];
-	
+	velocity = 1;
 	if (emmiter == 0) {
 		if (solver == 0) {
 			partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
@@ -197,9 +224,9 @@ void PhysicsInit() {
 				TimeLife[i] = 0;
 			}
 			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-				partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
-				partVertsVelocity[i * 3 + 1] = 10.f + ((float)rand() / RAND_MAX) * 5.f; //y random entre 15 i 10
-				partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
+				partVertsVelocity[i * 3 + 0] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity; //x
+				partVertsVelocity[i * 3 + 1] = (10.f + ((float)rand() / RAND_MAX) * 5.f)*velocity; //y random entre 15 i 10
+				partVertsVelocity[i * 3 + 2] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity; //z
 			}
 		}
 		else if (solver == 1)
@@ -223,9 +250,9 @@ void PhysicsInit() {
 				lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
 				for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 
-					xForce[i] =  ((float)rand() / RAND_MAX) * 5.f - 2.f;
-					yForce[i] = 7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-					zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+					xForce[i] =  (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity;
+					yForce[i] = 7.5*velocity;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+					zForce[i] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity;
 				}
 			}
 		}
@@ -244,8 +271,8 @@ void PhysicsInit() {
 					partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //z
 					TimeLife[i] = 0;
 					for (int i = 0; i < LilSpheres::maxParticles; ++i) {
-						partVertsVelocity[i * 3 + 0] = 5; //x
-						partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * -15.f; //y random entre 15 i 10
+						partVertsVelocity[i * 3 + 0] = 5*velocity; //x
+						partVertsVelocity[i * 3 + 1] = (((float)rand() / RAND_MAX) * -15.f)*velocity; //y random entre 15 i 10
 						partVertsVelocity[i * 3 + 2] = 0; //z
 					}
 				}
@@ -274,8 +301,8 @@ void PhysicsInit() {
 			for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 
 				xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
-				yForce[i] = -7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-				zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
+				yForce[i] = -7.5*velocity;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+				zForce[i] = 4*velocity;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
 			}
 		}
 	}
@@ -378,14 +405,14 @@ void EulerFountain(float dt)
 			partVerts[i * 3 + 0] = 0; //x
 			partVerts[i * 3 + 1] = 0.5; //y
 			partVerts[i * 3 + 2] = 0; //z
-			partVertsVelocity[i * 3 + 0] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //x
-			partVertsVelocity[i * 3 + 1] = 10.f + ((float)rand() / RAND_MAX) * 5.f;;
-			partVertsVelocity[i * 3 + 2] = ((float)rand() / RAND_MAX) * 5.f - 2.f; //z
+			partVertsVelocity[i * 3 + 0] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity; //x
+			partVertsVelocity[i * 3 + 1] = (10.f + ((float)rand() / RAND_MAX) * 5.f)*velocity; //y random entre 15 i 10
+			partVertsVelocity[i * 3 + 2] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity; //z
 			TimeLife[i] = 0;
 		}
 		else {
 			TimeLife[i] += 2;
-			finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + dt * partVertsVelocity[i * 3 + 1]; //altura diferent 
+				finalVerts[i * 3 + 1] = partVerts[i * 3 + 1] + dt * partVertsVelocity[i * 3 + 1]; //altura diferent 
 			
 				finalVerts[i * 3 + 0] = partVerts[i * 3 + 0] + dt * partVertsVelocity[i * 3 + 0];
 				finalVerts[i * 3 + 2] = partVerts[i * 3 + 2] + dt * partVertsVelocity[i * 3 + 2];//z
@@ -418,8 +445,8 @@ void EulerCascade(float dt) {
 			partVerts[i * 3 + 0] = -5 + ((float)rand() / RAND_MAX) *1.f; // ESTO O PONER -5 DIRECTO 
 			partVerts[i * 3 + 1] = 7.5; //y
 			partVerts[i * 3 + 2] = ((float)rand() / RAND_MAX) * 2.f - 1.f; //z
-			partVertsVelocity[i * 3 + 0] = 5; //x
-			partVertsVelocity[i * 3 + 1] = ((float)rand() / RAND_MAX) * -15.f; //y random
+			partVertsVelocity[i * 3 + 0] = 5*velocity; //x
+			partVertsVelocity[i * 3 + 1] = (((float)rand() / RAND_MAX) * -15.f)*velocity; //y random
 			partVertsVelocity[i * 3 + 2] =  0; //z
 			TimeLife[i] = 0;
 		}
@@ -457,8 +484,8 @@ void VerletCascade(float dt)
 			partVerts[i * 3 + 2] = -5.f + ((float)rand() / RAND_MAX) * 1.f; //z
 
 			xForce[i] = 0;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			yForce[i] = -7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			zForce[i] = 4;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			yForce[i] = -7.5*velocity;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			zForce[i] = 4*velocity;// ((float)rand() / RAND_MAX) * 5.f - 2.f;
 			lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
 			lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
 			lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
@@ -486,6 +513,8 @@ void VerletCascade(float dt)
 		}
 	}
 }
+
+
 void VerletFountain(float dt) {
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
 		LilSpheres::countAliveParticles += NParticles;
@@ -498,9 +527,9 @@ void VerletFountain(float dt) {
 			partVerts[i * 3 + 1] = 0; //y
 			partVerts[i * 3 + 2] = 0; //z
 
-			xForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			yForce[i] = 7.5;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
-			zForce[i] = ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			xForce[i] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity;
+			yForce[i] = 7.5*velocity;// -10 + ((float)rand() / RAND_MAX) * 5.f - 2.f;
+			zForce[i] = (((float)rand() / RAND_MAX) * 5.f - 2.f)*velocity;
 			lastPartVerts[i * 3 + 0] = partVerts[i * 3 + 0];
 			lastPartVerts[i * 3 + 1] = partVerts[i * 3 + 1];
 			lastPartVerts[i * 3 + 2] = partVerts[i * 3 + 2];
@@ -537,6 +566,7 @@ void PhysicsUpdate(float dt) {
 	//TODO
 
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
+
 	if (emmiter == 0) {
 		if (solver == 0)
 		{
@@ -557,13 +587,8 @@ void PhysicsUpdate(float dt) {
 			VerletCascade(dt);
 		}
 	}
-	
-
-	
-	
-	
-	
-
+	Sphere::updateSphere(glm::vec3(sphereX,sphereY, 0.f), radiusSphere);
+	Capsule::updateCapsule(glm::vec3(capsuleX,capsuleY,-2.f),glm::vec3(capsuleX, capsuleY,2.f), radiusCapsule);
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
 }
 

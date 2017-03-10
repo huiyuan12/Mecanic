@@ -586,7 +586,7 @@ void main() {\n\
 	vec3 normal = normalize(nuPA - C);\n\
 	out_Color = vec4(color.xyz * dot(normal, (mv_Mat*vec4(0.0, 1.0, 0.0, 0.0)).xyz) + color.xyz * 0.3, 1.0 );\n\
 }";
-
+extern float radiusCapsule;
 void setupCapsule(glm::vec3 posA, glm::vec3 posB, float radius) {
 	Capsule::radius = radius;
 	glGenVertexArrays(1, &capsuleVao);
@@ -641,7 +641,7 @@ void updateCapsule(glm::vec3 posA, glm::vec3 posB, float radius) {
 	buff[3] = posB.x; buff[4] = posB.y; buff[5] = posB.z;
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	Capsule::radius = radius;
+	Capsule::radius= radius;
 }
 void drawCapsule() {
 	glBindVertexArray(capsuleVao);
