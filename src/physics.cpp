@@ -10,7 +10,7 @@
 
 
 #define GRAVITY -9.81
-#define NParticles 25
+int NParticles;
 bool show_test_window = true;
 using namespace std;
 int primera;
@@ -31,7 +31,7 @@ bool textfor50 = false;
 bool textfor100 = false;
 
 int emmiter;
-int emmiter2;
+
 int solver;
 float radiusCapsule = 1.f;
 float radiusSphere = 1.f;
@@ -91,79 +91,25 @@ void GUI() {
 		//this function change the number of particles
 		if (ImGui::CollapsingHeader("Number of Particles"))
 		{
-			if (ImGui::Button("0")) {
+			if (ImGui::Button("100")) {
 				ImGui::SameLine();
-				//number of particles changes
-				textfor0 = true;
-				textfor10 = false;
-				textfor20 = false;
-				textfor50 = false;
-				textfor100 = false;
+				NParticles = 100;
 
 			}
-			if (textfor0)
+		
+			if (ImGui::Button("125")) {
+				NParticles = 125;
+			}
+		
+			if (ImGui::Button("150"))
 			{
-				ImGui::SameLine();
-				ImGui::Text("Nothing");
+				NParticles = 150;
 			}
-			if (ImGui::Button("10")) {
-				ImGui::SameLine();
-				//change number of particles;
-				textfor0 = false;
-				textfor10 = true;
-				textfor20 = false;
-				textfor50 = false;
-				textfor100 = false;
-			}
-			if (textfor10) {
-				ImGui::SameLine();
-				ImGui::Text("Oh, that's normal");
-			}
-			if (ImGui::Button("20"))
+		
+			if (ImGui::Button("200"))
 			{
-				//change number of particles;
-				textfor0 = false;
-				textfor10 = false;
-				textfor20 = true;
-				textfor50 = false;
-				textfor100 = false;
+				NParticles = 200;
 			}
-			if (textfor20) {
-				ImGui::SameLine();
-				ImGui::Text("You like particles!");
-			}
-			if (ImGui::Button("50"))
-			{
-				ImGui::SameLine();
-				//change numb of particles
-				textfor0 = false;
-				textfor10 = false;
-				textfor20 = false;
-				textfor50 = true;
-				textfor100 = false;
-
-			}
-			if (textfor50)
-			{
-				ImGui::SameLine();
-				ImGui::Text("That's a lot of particles!");
-			}
-			if (ImGui::Button("100"))
-			{
-				ImGui::SameLine();
-				//change numb of partitcles
-				textfor0 = false;
-				textfor10 = false;
-				textfor20 = false;
-textfor50 = false;
-textfor100 = true;
-			}
-			if (textfor100)
-			{
-				ImGui::SameLine();
-				ImGui::Text("You crazy!!");
-			}
-
 
 		}
 		
@@ -198,9 +144,7 @@ void PhysicsInit() {
 	//The access is contiguous from an start idx to idx+count particles. You may need to do multiple calls.
 	//Called here as an example to initialize to random values all particles inside the box. This code can be removed.
 
-//SOLVER == 0 -> EULER
-//EULER == 0 => FOUNTAIN!!!!!!!!!!!!!!
-//EULER == 1 => CASCADE!!!!!!!!!!!!!!
+	NParticles = 100;
 	partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
 	lastPartVerts = new float[LilSpheres::maxParticles * 3]; //posicions anteriors
 	temporalVerts = new float[LilSpheres::maxParticles * 3];
@@ -513,8 +457,6 @@ void VerletCascade(float dt)
 		}
 	}
 }
-
-
 void VerletFountain(float dt) {
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
 		LilSpheres::countAliveParticles += NParticles;
@@ -566,7 +508,7 @@ void PhysicsUpdate(float dt) {
 	//TODO
 
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
-
+	NParticles = 100;
 	if (emmiter == 0) {
 		if (solver == 0)
 		{
