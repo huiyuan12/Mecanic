@@ -264,19 +264,22 @@ void collision()
 	float *frontDistance = new float[LilSpheres::maxParticles * 3];
 	float *farDistance = new float[LilSpheres::maxParticles * 3];
 
+	float *sphereDistance = new float[LilSpheres::maxParticles * 3];
+	float *capsuleDistance = new float[LilSpheres::maxParticles * 3];
+
 
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 		// bottom plane collision
-		bottomDistance[i] = (partVerts[i*3+1]*100) / sqrt(100*100);
-		if (bottomDistance[i] <= 0) { 
-			
-			
+		bottomDistance[i] = (partVerts[i * 3 + 1] * 100) / sqrt(100 * 100);
+		if (bottomDistance[i] <= 0) {
+
+
 
 		}
 
 		//right plane collison
 		rightDistance[i] = (partVerts[i * 3 + 0] * (-100)) / sqrt(100 * 100) - 5; // es raro pero funciona
-		if (rightDistance[i] <= 0) { 
+		if (rightDistance[i] <= 0) {
 
 			// colisions elastiques
 
@@ -286,53 +289,59 @@ void collision()
 		if (leftDistance[i] <= 0) {
 
 			// colisions elastiques
-		
+
 
 		}
 
 		//top plane collison
-		topDistance[i] = ((partVerts[i * 3 + 1] * 100) / sqrt(100 * 100)-10) *(-1); // d'aquesta manera ses distancies son positives mentre estiguin dins es cub
-		
+		topDistance[i] = ((partVerts[i * 3 + 1] * 100) / sqrt(100 * 100) - 10) *(-1); // d'aquesta manera ses distancies son positives mentre estiguin dins es cub. És perque he calculat sa normal a l'enrevés
+
 		if (topDistance[i] <= 0) {
 
-			
+
 
 		}
 
 		//front plane collision
 
-		frontDistance[i] = partVerts[i * 3 + 2] * (100) / sqrt(100 * 100)+5;
+		frontDistance[i] = -partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) - 5 * (-1);
+
 		if (frontDistance[i] <= 0) {
+
+		}
+
+		farDistance[i] = partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) + 5;
+		if (farDistance[i] <= 0) {
 
 
 		}
 
-		frontDistance[i] = -partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) + 5;
-		if (frontDistance[i] <= 0) {
-
+		//sphere collison
+		sphereDistance[i] = sqrt((partVerts[i * 3 + 0] - 3)*(partVerts[i * 3 + 0] - 3) + (partVerts[i * 3 + 1] - 1)*(partVerts[i * 3 + 1] - 1) + (partVerts[i * 3 + 2] - 0)*(partVerts[i * 3 + 2] - 0)) - 1.f;
+		if (sphereDistance[i] < 0) {
 
 		}
-		
+
 	}
 
 
 	/*
 	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
 
-		if (partVerts[i * 3 + 0] <= -4.9 || partVerts[i * 3 + 0] >= 4.9) {
-			partVertsVelocity[i * 3 + 0] *= -0.8;
-		}
+	if (partVerts[i * 3 + 0] <= -4.9 || partVerts[i * 3 + 0] >= 4.9) {
+	partVertsVelocity[i * 3 + 0] *= -0.8;
+	}
 
-		if (partVerts[i * 3 + 1] <= 0) {
-			partVertsVelocity[i * 3 + 1] *= -0.8;
-		}
-		if (partVerts[i * 3 + 1] >= 9.9) {
-			partVertsVelocity[i * 3 + 1] *= -1;
-		}
+	if (partVerts[i * 3 + 1] <= 0) {
+	partVertsVelocity[i * 3 + 1] *= -0.8;
+	}
+	if (partVerts[i * 3 + 1] >= 9.9) {
+	partVertsVelocity[i * 3 + 1] *= -1;
+	}
 
-		if (partVerts[i * 3 + 2] <= -4.9 || partVerts[i * 3 + 2] >= 4.9) {
-			partVertsVelocity[i * 3 + 2] *= -0.8;
-		}
+	if (partVerts[i * 3 + 2] <= -4.9 || partVerts[i * 3 + 2] >= 4.9) {
+	partVertsVelocity[i * 3 + 2] *= -0.8;
+	}
 
 	}*/
 }
