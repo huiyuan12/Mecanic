@@ -1,29 +1,65 @@
-﻿  render_prims.cpp
-  render.cpp
-  physics.cpp
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(140): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(198): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(248): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(270): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(278): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(285): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(294): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(304): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(310): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(344): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(365): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(384): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(405): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(431): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\mecanic5\src\physics.cpp(473): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-  main.cpp
-  imgui_impl_glfw_gl3.cpp
-  imgui_draw.cpp
-  imgui_demo.cpp
-  imgui.cpp
-  Generando código...
-  LINK : no se encontró C:\Users\Toni\Source\Repos\Mecanic5\x64\Debug\GL_framework.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
-  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Mecanic5\x64\Debug\GL_framework.exe
-  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Mecanic5\x64\Debug\GL_framework.pdb (Partial PDB)
-  0 archivo(s) copiado(s)
-  0 archivo(s) copiado(s)
+﻿Compilación iniciada a las 10/03/2017 22:14:34.
+     1>Proyecto "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\GL_framework.vcxproj" en el nodo 2 (Build destinos).
+     1>ClCompile:
+         D:\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I.\include /ZI /nologo /W3 /WX- /sdl /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt src\physics.cpp
+         physics.cpp
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(149): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(216): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(266): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(332): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(335): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(336): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(337): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(338): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(343): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(346): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(347): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(348): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(349): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(353): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(356): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(357): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(358): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(359): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(363): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(367): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(368): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(369): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(370): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(376): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(380): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(381): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(382): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(383): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(386): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(389): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(390): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(391): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(392): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(430): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(451): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(470): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(491): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(517): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+     1>d:\jaume\uni\2º any\tecnologia de la programació\github\mecanic3\src\physics.cpp(559): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+       Link:
+         D:\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\GL_framework.exe" /INCREMENTAL /NOLOGO /LIBPATH:.\libs opengl32.lib glew32.lib glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\GL_framework.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\GL_framework.lib" /MACHINE:X64 x64\Debug\imgui.obj
+         x64\Debug\imgui_demo.obj
+         x64\Debug\imgui_draw.obj
+         x64\Debug\imgui_impl_glfw_gl3.obj
+         x64\Debug\main.obj
+         x64\Debug\physics.obj
+         x64\Debug\render.obj
+         x64\Debug\render_prims.obj
+         GL_framework.vcxproj -> D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\GL_framework.exe
+       PostBuildEvent:
+         xcopy "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\libs\glew32.dll" "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\" /y /d
+         xcopy "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\libs\glfw3.dll" "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\x64\Debug\" /y /d
+         :VCEnd
+         0 archivo(s) copiado(s)
+         0 archivo(s) copiado(s)
+     1>Compilación del proyecto terminada "D:\Jaume\Uni\2º Any\Tecnologia de la programació\Github\Mecanic3\GL_framework.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:01.48
