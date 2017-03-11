@@ -591,7 +591,7 @@ void VerletFountain(float dt) {
 
 void PhysicsUpdate(float dt) {
 	//TODO
-	collision();
+	//collision();
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
 	NParticles = 100;
 	if (emmiter == 0) {
