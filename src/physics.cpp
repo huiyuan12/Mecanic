@@ -217,8 +217,6 @@ void ElasticityEuler(int vNormalX, int vNormalY, int vNormalZ, float elasticity,
 	partVertsVelocity[it * 3 + 0] = partVertsVelocity[it * 3 + 0] - (1 + elasticity) * (vNormalX * partVertsVelocity[it * 3 + 0]) * vNormalX;
 	partVertsVelocity[it * 3 + 1] = partVertsVelocity[it * 3 + 1] - (1 + elasticity) * (vNormalY * partVertsVelocity[it * 3 + 1]) * vNormalY;
 	partVertsVelocity[it * 3 + 2] = partVertsVelocity[it * 3 + 2] - (1 + elasticity) * (vNormalZ * partVertsVelocity[it * 3 + 2]) * vNormalZ;
-
-
 }
 void ElasticityVerlet(int vNormalX, int vNormalY, int vNormalZ, float elasticity, int d, int it) {
 
@@ -456,9 +454,9 @@ void collision()
 
 		capsuleDistance[i] = sqrt(modulusAP[i] * modulusAP[i] - capsuleProj[i] * capsuleProj[i]) - radiusCapsule*1.5;
 
-		if (capsuleDistance[i] <= 1) {
-			ElasticityEuler(capsuleX,capsuleY, capsuleZ, 0.8, i);
-			ElasticityEuler(capsule2X, capsule2Y, capsule2Z, 0.8, i);
+		if (capsuleDistance[i] <= 0) {
+			//ElasticityEuler(capsuleX, capsuleY, capsuleZ, 0.3, i);
+			//ElasticityEuler(capsule2X, capsule2Y, capsule2Z, 0.3, i);
 		}
 	}
 
@@ -821,7 +819,7 @@ void PhysicsUpdate(float dt) {
 		}
 	}
 	collision();
-
+	
 	Sphere::updateSphere(glm::vec3(sphereX, sphereY, sphereZ), radiusSphere);
 	Capsule::updateCapsule(glm::vec3(capsuleX, capsuleY, capsuleZ), glm::vec3(capsule2X, capsule2Y, capsule2Z), radiusCapsule);
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
