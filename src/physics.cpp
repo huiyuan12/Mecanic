@@ -24,14 +24,7 @@ int fiveSecCompleted = 5;
 double time_counter = 0;
 
 float velocity;
-bool textfor0 = false;
-bool textfor10 = false;
-bool textfor20 = false;
-bool textfor50 = false;
-bool textfor100 = false;
-
 int emmiter;
-
 int solver;
 float radiusCapsule = 1.f;
 float radiusSphere = 1.f;
@@ -52,7 +45,6 @@ float *vectorNFriction;
 float *vectorTFriction;
 float *verletVelocity;
 float *preVerletVelocity;
-
 float *normalSphere;
 float fx = ((float)rand() / RAND_MAX) * 5.f - 2.f, fy = -20, fz = ((float)rand() / RAND_MAX) * 5.f - 2.f; // forces
 int coefficient;
@@ -133,7 +125,9 @@ void GUI() {
 		}
 	}
 
-	ImGui::SliderFloat("Time life ", &LilSpheres::lifeTime, 100, 300);
+	//we tryed to modifiy the life time of the particles but this doesnt works.
+	//ImGui::SliderFloat("Time life ", &LilSpheres::lifeTime, 100, 200); 
+	
 
 	// ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
 	if (show_test_window) {
@@ -436,43 +430,12 @@ void collision()
 		capsuleDistance[i] = sqrt(modulusAP[i] * modulusAP[i] - capsuleProj[i] * capsuleProj[i]) - radiusCapsule*1.5;
 
 		if (capsuleDistance[i] <= 1) {
-			
+		
 		}
 	}
 
 }
-void capsuleCollision()
-{
-	float *capsuleDistance = new float[LilSpheres::maxParticles * 3];
-	float *capsuleProj = new float[LilSpheres::maxParticles * 3];
 
-	float *capsuleVector = new float[3];
-	float *particleCapsuleVector = new float[LilSpheres::maxParticles * 3];
-
-	capsuleVector[0] = capsuleX - capsuleX;
-	capsuleVector[1] = capsuleY - capsuleY;
-	capsuleVector[2] = (-2 - 2); // 4
-	float modulusCV = sqrt(pow(capsuleVector[0], 2) + pow(capsuleVector[1], 2) + pow(capsuleVector[2], 2));
-
-	for (int i = 0; i < LilSpheres::countAliveParticles; ++i)
-	{
-		particleCapsuleVector[i * 3 + 0] = partVerts[i * 3 + 0] - capsuleX;
-		particleCapsuleVector[i * 3 + 1] = partVerts[i * 3 + 1] - capsuleY;
-		particleCapsuleVector[i * 3 + 2] = partVerts[i * 3 + 2] - capsuleZ;
-
-		float *modulusAP = new float[LilSpheres::maxParticles * 3];
-
-		modulusAP[i] = sqrt(particleCapsuleVector[i * 3 + 0] * particleCapsuleVector[i * 3 + 0] + particleCapsuleVector[i * 3 + 1] * particleCapsuleVector[i * 3 + 1] + particleCapsuleVector[i * 3 + 2] * particleCapsuleVector[i * 3 + 2]);
-
-		capsuleProj[i] = ((particleCapsuleVector[i * 3 + 2] * capsuleVector[2]) / (modulusCV*modulusCV));
-
-		capsuleDistance[i] = sqrt(modulusAP[i] * modulusAP[i] - capsuleProj[i] * capsuleProj[i]) - radiusCapsule * 2;
-
-		if (capsuleDistance[i] <= 0) {
-
-		}
-	}
-}
 
 void PhysicsInit() {
 	//TODO
@@ -624,10 +587,7 @@ void PhysicsInit() {
 			}
 		}
 	}
-
 }
-
-
 void EulerFountain(float dt)
 {
 
