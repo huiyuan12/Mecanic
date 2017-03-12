@@ -40,6 +40,7 @@ float capsuleY = 2.f;
 float capsuleZ = -2.f;
 float sphereX = 3.f;
 float sphereY = 1.f;
+float sphereZ = 0.f;
 float *partVertsVelocity;
 float *partVerts;
 float *lastPartVerts;
@@ -47,15 +48,13 @@ float *finalVerts;
 float *TimeLife;
 float *temporalVerts;
 float *xForce, *yForce, *zForce;
-
-
 float *vectorNFriction;
 float *vectorTFriction;
 
 float *verletVelocity;
 float *preVerletVelocity;
 
-
+float *normalSphere;
 float fx = ((float)rand() / RAND_MAX) * 5.f - 2.f, fy = -20, fz = ((float)rand() / RAND_MAX) * 5.f - 2.f; // forces
 namespace Capsule {
 	
@@ -90,12 +89,14 @@ void GUI() {
 			ImGui::SliderFloat("Capsule Radius", &radiusCapsule, 0, 3); //thsi function changes the velocity of partitcles;
 			ImGui::SliderFloat("Position X Capsule", &capsuleX ,-4.9f, 4.9f);
 			ImGui::SliderFloat("Position Y Capsule,", &capsuleY, 0.9f, 9.9f);
+			ImGui::SliderFloat("Position Z Capsule,", &capsuleZ, -2.5f, 2.5f);
 		}
 		if (ImGui::CollapsingHeader("Sphere"))
 		{
 			ImGui::SliderFloat("Sphere radius", &radiusSphere, 0, 3); //thsi function changes the velocity of partitcles;
 			ImGui::SliderFloat("Position X Sphere", &sphereX, -4.9f, 4.9f);
 			ImGui::SliderFloat("Position Y Sphere,", &sphereY, 0.9f, 9.9f);
+			ImGui::SliderFloat("Position Z Sphere,", &sphereZ, -4.9f, 4.9f);
 		}
 		//this function change the number of particles
 		if (ImGui::CollapsingHeader("Number of Particles"))
@@ -128,7 +129,6 @@ void GUI() {
 			ImGui::ShowTestWindow(&show_test_window);
 		}
 	}
-
 namespace LilSpheres {
 	extern const int maxParticles;
 	extern void setupParticles(int numTotalParticles, float radius);
@@ -141,8 +141,6 @@ namespace LilSpheres {
 	int countAliveParticles = 0;
 	int mass = 1;
 }
-
-
 void PhysicsInit() {
 	//TODO
 	//crear particulas
@@ -162,14 +160,12 @@ void PhysicsInit() {
 	xForce = new float[LilSpheres::maxParticles];
 	yForce = new float[LilSpheres::maxParticles];
 	zForce = new float[LilSpheres::maxParticles];
-
-
 	vectorNFriction = new float[LilSpheres::maxParticles];
 	vectorTFriction = new float[LilSpheres::maxParticles];
 
 	verletVelocity = new float[LilSpheres::maxParticles];
 	preVerletVelocity = new float[LilSpheres::maxParticles];
-
+	normalSphere = new float[LilSpheres::maxParticles];
 
 	velocity = 1;
 	if (emmiter == 0) {
@@ -284,7 +280,6 @@ void FrictionVerlet(int vNormalX, int vNormalY, int vNormalZ, float friction, in
 	partVertsVelocity[it * 3 + 1] = partVertsVelocity[it * 3 + 1] - (friction * vectorTFriction[it * 3 + 1]);
 	partVertsVelocity[it * 3 + 2] = partVertsVelocity[it * 3 + 2] - (friction * vectorTFriction[it * 3 + 2]);
 }
-
 void FrictionEuler(int vNormalX, int vNormalY, int vNormalZ, float friction1, float friction2, int it) {
 	vectorNFriction[it * 3 + 0] = ((vNormalX)* verletVelocity[it * 3 + 0]) * vNormalX;
 	vectorNFriction[it * 3 + 1] = ((vNormalY)* verletVelocity[it * 3 + 1]) * vNormalY;
@@ -302,56 +297,48 @@ void FrictionEuler(int vNormalX, int vNormalY, int vNormalZ, float friction1, fl
 	partVerts[it * 3 + 1] = partVerts[it * 3 + 1] + friction1 * vectorNFriction[it * 3 + 1] + friction2 * vectorTFriction[it * 3 + 1];
 	partVerts[it * 3 + 2] = partVerts[it * 3 + 2] + friction1 * vectorNFriction[it * 3 + 1] + friction2 * vectorTFriction[it * 3 + 2];
 
-}
 
+
+}
 void ElasticityEuler(int vNormalX, int vNormalY, int vNormalZ, float friction, int it) {
-	partVertsVelocity[it * 3 + 0] = partVertsVelocity[it * 3 + 0] - (1 + friction) * (vNormalX * partVertsVelocity[it * 3 + 0] * vNormalX);
-	partVertsVelocity[it * 3 + 1] = partVertsVelocity[it * 3 + 1] - (1 + friction) * (vNormalY * partVertsVelocity[it * 3 + 1] * vNormalY);
-	partVertsVelocity[it * 3 + 2] = partVertsVelocity[it * 3 + 2] - (1 + friction) * (vNormalZ * partVertsVelocity[it * 3 + 2] * vNormalZ);
+	partVertsVelocity[it * 3 + 0] = partVertsVelocity[it * 3 + 0] - (1 + friction) * (vNormalX * partVertsVelocity[it * 3 + 0]) * vNormalX;
+	partVertsVelocity[it * 3 + 1] = partVertsVelocity[it * 3 + 1] - (1 + friction) * (vNormalY * partVertsVelocity[it * 3 + 1]) * vNormalY;
+	partVertsVelocity[it * 3 + 2] = partVertsVelocity[it * 3 + 2] - (1 + friction) * (vNormalZ * partVertsVelocity[it * 3 + 2]) * vNormalZ;
 }
+void ElasticityVerlet(int vNormalX, int vNormalY, int vNormalZ, float friction, int d,int it) {
 
-void ElasticityVerlet(int vNormalX, int vNormalY, int vNormalZ, float friction, int it) {
-	partVerts[it * 3 + 0] = partVerts[it * 3 + 0] - (1 + friction) * (vNormalX * partVerts[it * 3 + 0] * vNormalX);
-	partVerts[it * 3 + 1] = partVerts[it * 3 + 1] - (1 + friction) * (vNormalY * partVerts[it * 3 + 1] * vNormalY);
-	partVerts[it * 3 + 2] = partVerts[it * 3 + 2] - (1 + friction) * (vNormalZ * partVerts[it * 3 + 2] * vNormalZ);
+	partVerts[it * 3 + 0] = partVerts[it * 3 + 0] - (1 + friction) * (vNormalX * partVerts[it * 3 + 0] +d) * vNormalX;
+	partVerts[it * 3 + 1] = partVerts[it * 3 + 1] - (1 + friction) * (vNormalY * partVerts[it * 3 + 1] +d)* vNormalY;
+	partVerts[it * 3 + 2] = partVerts[it * 3 + 2] - (1 + friction) * (vNormalZ * partVerts[it * 3 + 2] +d) * vNormalZ;
 }
-
 void collision()
 {
-
 	float *topDistance = new float[LilSpheres::maxParticles * 3];
 	float *bottomDistance = new float[LilSpheres::maxParticles * 3];
 	float *rightDistance = new float[LilSpheres::maxParticles * 3];
 	float *leftDistance = new float[LilSpheres::maxParticles * 3];
 	float *frontDistance = new float[LilSpheres::maxParticles * 3];
 	float *farDistance = new float[LilSpheres::maxParticles * 3];
-
 	float *sphereDistance = new float[LilSpheres::maxParticles * 3];
-	float *capsuleDistance = new float[LilSpheres::maxParticles * 3];
-
-
-	for (int i = 0; i < LilSpheres::maxParticles; ++i) {
+	
+	for (int i = 0; i < LilSpheres::countAliveParticles; ++i) {
 		// bottom plane collision
+		
 		bottomDistance[i] = (partVerts[i * 3 + 1] * 100) / sqrt(100 * 100);
-		if (bottomDistance[i] <= 0) {
+		if (bottomDistance[i] < 0.2) {
 			
 			//FrictionVerlet(0, 1, 0, 0.8, i);
 			//FrictionEuler(0, 1, 0, 0.8, 0.8, i);
 			ElasticityEuler(0, 1, 0, 0.8, i);
-			//ElasticityVerlet(0, 1, 0, 0.8, i);
-
+			//ElasticityVerlet(0, 1, 0, 0.8, -50,i);
 		}
-
 		//right plane collison
 		rightDistance[i] = ((-partVerts[i * 3 + 0] * (-100)) / sqrt(100 * 100) - 5)*(-1); 
-		if (rightDistance[i] <= 0) {
-			
+		if (rightDistance[i] <= 0) {			
 			//FrictionVerlet(1, 0, 0, 0.8, i);
 			//FrictionEuler(1, 0, 0, 0.8, 0.8, i);
 			ElasticityEuler(1, 0, 0, 0.8, i);
-			//ElasticityVerlet(1, 0, 0, 0.8, i);
-			
-
+			//ElasticityVerlet(1, 0, 0, 0.8, -50,i);
 		}
 		//left plane collison
 		leftDistance[i] = (-partVerts[i * 3 + 0] * (-100)) / sqrt(100 * 100) + 5;
@@ -360,7 +347,7 @@ void collision()
 			//FrictionVerlet(1, 0, 0, 0.8, i);
 			//FrictionEuler(1, 0, 0, 0.8, 0.8, i);
 			ElasticityEuler(1, 0, 0, 0.8, i);
-			//ElasticityVerlet(1, 0, 0, 0.8, i);
+			//ElasticityVerlet(1, 0, 0, 0.8, -50,i);
 		}
 
 		//top plane collison
@@ -371,41 +358,68 @@ void collision()
 			//FrictionVerlet(0, 1, 0, 0.8, i);
 			//FrictionEuler(1, 0, 0, 0.8, 0.8, i);
 			ElasticityEuler(1, 0, 0, 0.8, i);
-			//ElasticityVerlet(1, 0, 0, 0.8, i);
+			//ElasticityVerlet(1, 0, 0, 0.8, -50,i);
 		}//
 
 		//front plane collision
-
-		frontDistance[i] = -partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) - 5 * (-1);
-		
+		frontDistance[i] = -partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) - 5 * (-1);	
 		if (frontDistance[i] <= 0) {
 			
 			//FrictionVerlet(0, 0, 1, 0.8, i);
 			//FrictionEuler(0, 0, 1, 0.8, 0.8, i);
 			ElasticityEuler(0, 0, 1, 0.8, i);
-			//ElasticityVerlet(0, 0, 1, 0.8, i);
+			//ElasticityVerlet(0, 0, 1, 0.8, -50,i);
 			
 		}
-
 		farDistance[i] = partVerts[i * 3 + 2] * (100) / sqrt(100 * 100) + 5;
 		if (farDistance[i] <= 0) {
 
 			//FrictionVerlet(0, 0, 1, 0.8, i);
 			//FrictionEuler(0, 0, 1, 0.8, 0.8, i);
 			ElasticityEuler(0, 0, 1, 0.8, i);
-			//ElasticityVerlet(0, 0, 1, 0.8, i);
-
+			//ElasticityVerlet(0, 0, 1, 0.8,-50, i);
 		}
-
 		//sphere collison
-		sphereDistance[i] = sqrt((partVerts[i * 3 + 0] - sphereX)*(partVerts[i * 3 + 0] - sphereX) + (partVerts[i * 3 + 1] - sphereY)*(partVerts[i * 3 + 1] - sphereY) + (partVerts[i * 3 + 2] - 0)*(partVerts[i * 3 + 2] - 0)) - radiusSphere;
-		if (sphereDistance[i] < 0) {
+	
+		sphereDistance[i] = sqrt((partVerts[i * 3 + 0] - sphereX)*(partVerts[i * 3 + 0] - sphereX) + (partVerts[i * 3 + 1] - sphereY)*(partVerts[i * 3 + 1] - sphereY) + (partVerts[i * 3 + 2] - sphereZ)*(partVerts[i * 3 + 2] - sphereZ)) - radiusSphere;
+		if (sphereDistance[i] <= 0) {
+			ElasticityEuler(sphereX, sphereY, sphereZ, 0.8, i);
+		}
+	}
+
+}
+void capsuleCollision()
+{
+	float *capsuleDistance = new float[LilSpheres::maxParticles * 3];
+	float *capsuleProj = new float[LilSpheres::maxParticles * 3];
+
+	float *capsuleVector = new float[3];
+	float *particleCapsuleVector = new float[LilSpheres::maxParticles * 3];
+
+	capsuleVector[0] = capsuleX - capsuleX;
+	capsuleVector[1] = capsuleY - capsuleY;
+	capsuleVector[2] = (-2 - 2); // 4
+	float modulusCV = sqrt(pow(capsuleVector[0], 2) + pow(capsuleVector[1], 2) + pow(capsuleVector[2], 2));
+
+	for (int i = 0; i < LilSpheres::countAliveParticles; ++i)
+	{
+		particleCapsuleVector[i * 3 + 0] = partVerts[i * 3 + 0] - capsuleX;
+		particleCapsuleVector[i * 3 + 1] = partVerts[i * 3 + 1] - capsuleY;
+		particleCapsuleVector[i * 3 + 2] = partVerts[i * 3 + 2] - capsuleZ;
+
+		float *modulusAP = new float[LilSpheres::maxParticles * 3];
+
+		modulusAP[i] = sqrt(particleCapsuleVector[i * 3 + 0] * particleCapsuleVector[i * 3 + 0] + particleCapsuleVector[i * 3 + 1] * particleCapsuleVector[i * 3 + 1] + particleCapsuleVector[i * 3 + 2] * particleCapsuleVector[i * 3 + 2]);
+
+		capsuleProj[i] = ((particleCapsuleVector[i * 3 + 2] * capsuleVector[2]) / (modulusCV*modulusCV));
+
+		capsuleDistance[i] = sqrt(modulusAP[i] * modulusAP[i] - capsuleProj[i] * capsuleProj[i]) - radiusCapsule * 2;
+
+		if (capsuleDistance[i] <= 0) {
 
 		}
-
 	}
 }
-
 void EulerFountain(float dt) 
 {
 
@@ -530,6 +544,7 @@ void VerletCascade(float dt)
 	}
 }
 void VerletFountain(float dt) {
+
 	if (LilSpheres::countAliveParticles < LilSpheres::maxParticles)
 		LilSpheres::countAliveParticles += NParticles;
 	finalVerts = new float[LilSpheres::maxParticles * 100];
@@ -578,9 +593,10 @@ void VerletFountain(float dt) {
 
 void PhysicsUpdate(float dt) {
 	//TODO
-	collision();
+
 	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
-	NParticles = 100;
+
+
 	if (emmiter == 0) {
 		if (solver == 0)
 		{
@@ -601,14 +617,18 @@ void PhysicsUpdate(float dt) {
 			VerletCascade(dt);
 		}
 	}
-	Sphere::updateSphere(glm::vec3(sphereX,sphereY, 0.f), radiusSphere);
-	Capsule::updateCapsule(glm::vec3(capsuleX,capsuleY,-2.f),glm::vec3(capsuleX, capsuleY,2.f), radiusCapsule);
+	collision();
+
+	Sphere::updateSphere(glm::vec3(sphereX,sphereY, sphereZ), radiusSphere);
+	Capsule::updateCapsule(glm::vec3(capsuleX,capsuleY,2.f),glm::vec3(capsuleX, capsuleY,-2.f), radiusCapsule);
 	LilSpheres::updateParticles(0, LilSpheres::maxParticles, partVerts);
 }
 
+
+
 void PhysicsCleanup() {
 
-	
+		
 		delete[]partVerts;
 	
 }
