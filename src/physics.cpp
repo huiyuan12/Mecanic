@@ -471,6 +471,7 @@ void PhysicsInit() {
 	//updateParticles is the function you can use to update the position of the particles (directly from the physics code)
 	//The access is contiguous from an start idx to idx+count particles. You may need to do multiple calls.
 	//Called here as an example to initialize to random values all particles inside the box. This code can be removed.
+	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
 	NParticles = 100;
 	LilSpheres::lifeTime = 200;
 	partVerts = new float[LilSpheres::maxParticles * 3]; //posicions
@@ -795,7 +796,7 @@ void VerletFountain(float dt) {
 void PhysicsUpdate(float dt) {
 	//TODO
 
-	LilSpheres::setupParticles(LilSpheres::maxParticles, LilSpheres::radius);
+
 
 	if (emmiter == 0) {
 		if (solver == 0)
@@ -829,7 +830,32 @@ void PhysicsUpdate(float dt) {
 void PhysicsCleanup() {
 
 
-	delete[]partVerts;
+	
+	delete[]partVerts; //posicions
+	delete[]lastPartVerts; //posicions anteriors
+	delete[]temporalVerts;
+	delete[]partVertsVelocity;
+	delete[]TimeLife;
+	delete[]xForce;
+	delete[]yForce;
+	delete[]zForce;
+	delete[]vectorNFriction ;
+	delete[]vectorTFriction;
+	delete[]verletVelocity;
+	delete[]preVerletVelocity;
+	delete[]normalSphere;
+	delete[]topDistance;
+	delete[]bottomDistance;
+	delete[]rightDistance;
+	delete[]leftDistance;
+	delete[]frontDistance;
+	delete[]farDistance;
+	delete[]sphereDistance;
+	delete[]capsuleDistance;
+	delete[]capsuleProj;
+	delete[]modulusAP;
+	delete[]capsuleVector;
+	delete[]particleCapsuleVector;
 
 }
 
